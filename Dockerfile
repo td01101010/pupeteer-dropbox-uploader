@@ -30,8 +30,12 @@ RUN npm i puppeteer \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /node_modules
 
+RUN mkdir /app/
+RUN chmod 777 /app/
+
 # Run everything after as non-privileged user.
 USER pptruser
 
-CMD ["google-chrome-unstable"]
+ADD package.json package-lock.json app.js /app/
 
+ENTRYPOINT ["node", "/app/app.js"]
